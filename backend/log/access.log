@@ -1,0 +1,2 @@
+::ffff:127.0.0.1 - - [21/Feb/2020:15:02:11 +0000] "GET /api/post HTTP/1.1" 200 30 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36"
+::ffff:127.0.0.1 - - [21/Feb/2020:15:02:42 +0000] "GET /api/user HTTP/1.1" 200 138 "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36"
