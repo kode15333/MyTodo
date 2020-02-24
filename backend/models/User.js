@@ -11,7 +11,7 @@ module.exports = (sequelize, Sequelize) => {
                 type: Sequelize.STRING(255)
             },
             userpw: {
-                type: Sequelize.STRING(16)
+                type: Sequelize.STRING(255)
             },
             nickname: {
                 type: Sequelize.STRING(255),

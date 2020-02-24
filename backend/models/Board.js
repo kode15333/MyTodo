@@ -2,7 +2,7 @@ module.exports = (sequelize, Sequelize) => {
     return sequelize.define(
         "Board",
         {
-            postnum: {
+            postid: {
                 type: Sequelize.INTEGER,
                 autoIncrement: true,
                 primaryKey: true
@@ -16,8 +16,8 @@ module.exports = (sequelize, Sequelize) => {
             content: {
                 type: Sequelize.STRING(255),
             },
-            state: {
-                type: Sequelize.STRING(16)
+            done: {
+                type: Sequelize.STRING(1)                     
             },
         },
         {

@@ -6,7 +6,8 @@
 로그인   |  POST    | api/user/join     | userid, userpw
 로그아웃 |  GET     | api/user          | 
 TODOLIST api|
-글리스트|GET| api/board|userid
-글쓰기|POST| api/board|userid, title, content, state
-글수정|PATCH| api/board/:postid | title, content, state, postid
-글삭제|DELETE| api/board/:postid | postid
+리스트|GET| api/board|userid
+글 쓰기|POST| api/board|userid, title, content, state
+글 로딩|GET|api/board/:postid | |
+글 수정|PATCH| api/board/:postid | title, content, state, postid
+글 삭제|DELETE| api/board/:postid | postid
