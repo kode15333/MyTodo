@@ -31,7 +31,6 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
-db.User.hasMany(db.Post);
 
 
 db.sequelize = sequelize;
