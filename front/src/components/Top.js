@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import {Link} from "react-router-dom";
 class Top extends Component {
+    state ={
+      foo :true
+    }
     render() {
         return (
             <div>
@@ -17,14 +20,19 @@ class Top extends Component {
                           <Link className="nav-link" to="/">TODOLIST</Link>
                         </li>
                         <li className="nav-item ">
-                          <Link className="nav-link" to="/wr">WRITE</Link>
+                          <Link className="nav-link" to="/posts/write">WRITE</Link>
                         </li>
-                        <li className="nav-item ">
+                        {this.state.foo ? <><li className="nav-item ">
                           <Link className="nav-link" to="/login">LOGIN</Link>
-                        </li>
+                        </li> 
                         <li className="nav-item">
                           <Link className="nav-link" to="/join">JOIN</Link>
                         </li>
+                        </>
+                        :
+                        <li className="nav-item ">
+                          <Link className="nav-link" to="/logout">LOGOUT</Link>
+                        </li>}
                       </ul>
                     </div>
                   </nav>

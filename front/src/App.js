@@ -7,7 +7,6 @@ import Login from "./components/Login";
 import Join from "./components/Join";
 import TodoList from "./components/TodoList";
 import CreateTodo from "./components/CreateTodo";
-import UpdateTodo from "./components/UpdateTodo";
 import Bottom from "./components/Bottom";
 import {
   BrowserRouter as Router,
@@ -20,6 +19,7 @@ class App extends Component {
         userid: "",
         userpw: "",
         nickname: "",
+        todos:[],
         status: false,
         postid: "",
         title: "",
@@ -70,20 +70,27 @@ class App extends Component {
             status: !this.state.status
         });
     };
-    writePost = e => {
-        const { postid, title, content, done } = this.state;
-        e.preventDefault();
-        if (postid === "") {
-            axios
-                .post("api/board", {
+    writePost = post => {
+        const { postid, title, content, done } = post;
+        if (typeof postid === 'undefined') {
+            console.log(postid,'<<<<<<<<<<<<')
+            axios.post("/api/board", {
                     title: title,
                     content: content,
                     done: done
                 })
-                .then(res => console.log(res));
+                .then(res => {
+                    this.setState({
+                        todos : this.state.todos.concat({
+                            postid : res.data.postid,
+                            title,
+                            content,
+                            done
+                        })
+                    })
+                });
         } else {
-            axios
-                .patch(`api/board/${postid}`, {
+            axios.patch(`api/board/${postid}`, {
                     title: title,
                     content: content,
                     done: done
@@ -120,27 +127,31 @@ class App extends Component {
             <div className="App">
               <Router>
               <Top/>
-              <Switch>
-                <Route exact path="/">
-                  <TodoList/>
-                </Route>
-                <Route path="/wr">
-                  <CreateTodo/>
-                </Route>
-                <Route path="/login">
-                  <Login/>
-                </Route>
-                <Route path="/join">
-                  <Join/>
-                </Route>
-              </Switch>
+                <div className="content">
+                <Switch>
+                    <Route exact path="/">
+                    <TodoList/>
+                    </Route>
+                    <Route path="/posts/write">
+                    <CreateTodo onCreate={this.writePost} />
+                    </Route>
+                    <Route path="/login">
+                    <Login/>
+                    </Route>
+                    <Route path="/join">
+                    <Join/>
+                    </Route>
+                </Switch>
+                </div>
               </Router>
               {/* <UpdateTodo/> */}
               <hr/>
               <Bottom/>
-
-
-                {/* {this.state.status ? "로그인" : "로그아웃"}
+<hr/>
+<hr/>
+<hr/>
+<hr/>
+                {this.state.status ? "로그인" : "로그아웃"}
                 <h1>회원가입</h1>
                 <form onSubmit={this.handleSignUp}>
                     <input name="userid" value={this.state.userid} onChange={this.handleChange} />
@@ -173,7 +184,7 @@ class App extends Component {
                 </form>
                 <button onClick={this.handleupdatePost}>수정</button>
                 <hr />
-                <button onClick={this.handledeletePost}>삭제</button> */}
+                <button onClick={this.handledeletePost}>삭제</button>
             </div>
         );
     }
