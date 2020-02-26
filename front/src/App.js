@@ -14,6 +14,7 @@ import {
   Route} from "react-router-dom";
 import UpdateTodo from "./components/UpdateTodo";
 import Home from "./components/Home";
+import NoMatch from "./components/NoMatch";
 class App extends Component {
     state = {
         nickname: "",
@@ -145,8 +146,8 @@ class App extends Component {
                       todos={this.state.todos}
                       onLogin={this.handleLogin}
                       onListUp={this.handlePostListUP}/>}/>                   
-                    <Route path="/join"
-                     component={Join}/>
+                    <Route path="/join" component={Join}/>
+                    <Route path="*" component={NoMatch}/>
                 </Switch>
                 </div>
               </Router>
