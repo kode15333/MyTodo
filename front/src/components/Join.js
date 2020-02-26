@@ -67,7 +67,7 @@ class Join extends Component {
                      onChange={this.handleChange}/><span className="ml-2 text-danger">{this.state.verify}</span><br/>
                     <label className="font-weight-bold ml-1">NickName</label>
                     <input type="text" name="nickname" value={this.state.nickname} className="form-control mb-3" placeholder="NickName" required={true} onChange={this.handleChange}/>
-                    <button className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                    <button className="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
                   </form>
                 </div>                
             </div>

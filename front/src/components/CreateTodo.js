@@ -49,7 +49,7 @@ class CreateTodo extends Component {
               <button type="button" value="D"className="btn btn-outline-secondary alert">DONE</button>
             </div>
             <div  className="d-flexd-flex mb-3 text-center">
-             <button className="btn btn-outline-success btn-lg" type="submit">Sign in</button>
+             <button className="btn btn-outline-success btn-lg" type="submit">POSTING</button>
             </div>
           </form>
         </div>

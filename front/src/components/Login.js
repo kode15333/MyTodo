@@ -55,7 +55,7 @@ class Login extends Component {
                     <input type="text" name="userid" className="form-control mb-1" state={userid}  onChange={this.handleChange} placeholder="ID" required={true} autoFocus={true} />
                     <label className="sr-only">Password</label>
                     <input type="password" name="userpw" className="form-control mb-3"state={userpw}  onChange={this.handleChange} placeholder="Password" required={true} />
-                    <button className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                    <button className="btn btn-lg btn-primary btn-block" type="submit">LOGIN</button>
                   </form>
                 </div>                
             </div>
