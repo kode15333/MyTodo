@@ -4,7 +4,7 @@ import shortid from'shortid';
 
 class TodoList extends Component {
   componentDidMount() {
-    if(!this.props.loginState){
+    if(!this.props.nickname){
       window.alert('로그인 부탁드립니다')
       this.props.history.push('/login')
     }

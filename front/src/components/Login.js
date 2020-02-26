@@ -30,7 +30,7 @@ class Login extends Component {
           axios.get('/api/board').then(res=>{
             this.props.onListUp(res.data);
          })
-          this.props.history.push('/posts')
+          this.props.history.push('/')
         }else{
           window.alert('아이디와 비밀번호 다시한번 확인해주세요')
         }
@@ -49,7 +49,7 @@ class Login extends Component {
             <div>
                 <div className="container w-25 mt-5">
                   <form className="form-signin" onSubmit={this.handleLogin}>
-                    <img className="mb-4 mt-4" src="https://www.hohyeonmoon.com/static/2208acea4d740eb4e10862904a845cda/1e9e2/react-js-github-pages-deploy.png" alt="" width="72" height="72"/>
+                    <img className="mb-4 mt-4" src="/images/logo.png" alt="" width="72" height="72"/>
                     <h1 className="h3 mb-3 font-weight-normal">로그인</h1>
                     <label className="sr-only">ID</label>
                     <input type="text" name="userid" className="form-control mb-1" state={userid}  onChange={this.handleChange} placeholder="ID" required={true} autoFocus={true} />

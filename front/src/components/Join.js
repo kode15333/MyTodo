@@ -51,7 +51,7 @@ class Join extends Component {
         return (
             <div>
                 <div className="container w-25">
-                    <img className="mb-4 mt-4" src="https://www.hohyeonmoon.com/static/2208acea4d740eb4e10862904a845cda/1e9e2/react-js-github-pages-deploy.png" alt="" width="72" height="72"/>
+                    <img className="mb-4 mt-4" src="/images/logo.png" alt="" width="72" height="72"/>
                     <h1 className="h3 mb-3 font-weight-normal">회원가입</h1>
                     <form className="form-signin text-left" onSubmit={this.handleSignUp}>
                     <label className="font-weight-bold ml-1">I  D</label>

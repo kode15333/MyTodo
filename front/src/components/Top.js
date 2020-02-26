@@ -13,7 +13,7 @@ class Top extends Component {
                <header className="container mb-4">
                   <nav className="navbar navbar-expand-md navbar-dark bg-dark container">
                     <Link to="/">
-                    <img className="" src="https://www.hohyeonmoon.com/static/2208acea4d740eb4e10862904a845cda/1e9e2/react-js-github-pages-deploy.png" alt="" width="50" height="50"/>
+                    <img className="" src="/images/logo.png" alt="" width="50" height="50"/>
                     </Link>
                     <div className="collapse navbar-collapse">
                       <ul className="navbar-nav mr-auto">
