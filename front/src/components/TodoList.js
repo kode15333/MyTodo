@@ -3,6 +3,13 @@ import TodoItem from './TodoItem';
 import shortid from'shortid';
 
 class TodoList extends Component {
+  componentDidMount() {
+    if(!this.props.loginState){
+      window.alert('로그인 부탁드립니다')
+      this.props.history.push('/login')
+    }
+  }
+  
     render() {
       const {todos, nickname, onRemove, onUpdate} = this.props
         return (

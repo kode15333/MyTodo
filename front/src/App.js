@@ -20,7 +20,7 @@ class App extends Component {
         todos:[],
         loginState: false,
     };
-    
+
 
     handleLogin = data => {
         const {loginState, nickname} = data;
