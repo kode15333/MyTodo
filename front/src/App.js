@@ -33,21 +33,20 @@ class App extends Component {
             [name]: value
         });
     };
-    handleSignUp = e => {
-        const { userid, userpw, nickname } = this.state;
-        e.preventDefault();
-        axios
-            .post("api/user", {
-                userid: userid,
-                userpw: userpw,
-                nickname: nickname
-            })
-            .then(res => console.log(res));
-        this.setState({
-            userid: "",
-            userpw: "",
-            nickname: ""
-        });
+    handleSignUp = data => {
+        console.log(data)
+        // const { userid, userpw, nickname } = data;
+        // axios.post("api/user", {
+        //         userid: userid,
+        //         userpw: userpw,
+        //         nickname: nickname
+        //     })
+        //     .then(res => console.log(res));
+        // this.setState({
+        //     userid: "",
+        //     userpw: "",
+        //     nickname: ""
+        // });
     };
     handleLogin = e => {
         const { userid, userpw } = this.state;
@@ -139,7 +138,7 @@ class App extends Component {
                     <Login/>
                     </Route>
                     <Route path="/join">
-                    <Join/>
+                    <Join onSignUp={this.handleSignUp}/>
                     </Route>
                 </Switch>
                 </div>
