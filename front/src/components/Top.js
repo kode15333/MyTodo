@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import {Link} from "react-router-dom";
 class Top extends Component {
-    state ={
-      foo :true
-    }
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps !== this.props
+  }
+    handleLogout = () => {
+      this.props.onLogout()
+    };
     render() {
         return (
             <div>
@@ -16,23 +19,26 @@ class Top extends Component {
                       <ul className="navbar-nav mr-auto">
                       </ul>
                       <ul className="navbar-nav">
-                        <li className="nav-item active">
-                          <Link className="nav-link" to="/">TODOLIST</Link>
+                        <li className="nav-item">
+                          <Link className="nav-link" to="/">HOME</Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link className="nav-link" to="/posts">TODOLIST</Link>
                         </li>
                         <li className="nav-item ">
                           <Link className="nav-link" to="/posts/write">WRITE</Link>
                         </li>
-                        {this.state.foo ? <><li className="nav-item ">
-                          <Link className="nav-link" to="/login">LOGIN</Link>
-                        </li> 
-                        <li className="nav-item">
-                          <Link className="nav-link" to="/join">JOIN</Link>
-                        </li>
-                        </>
-                        :
+                        {this.props.loginState ? 
                         <li className="nav-item ">
-                          <Link className="nav-link" to="/logout">LOGOUT</Link>
-                        </li>}
+                          <Link className="nav-link" to="/login" onClick={this.handleLogout}>LOGOUT</Link>
+                        </li>
+                        : <><li className="nav-item ">
+                        <Link className="nav-link" to="/login">LOGIN</Link>
+                      </li> 
+                      <li className="nav-item">
+                        <Link className="nav-link" to="/join">JOIN</Link>
+                      </li>
+                      </>}
                       </ul>
                     </div>
                   </nav>

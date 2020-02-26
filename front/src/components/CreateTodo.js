@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
 
 class CreateTodo extends Component {
-
     state = {
       title: "",
       content: "",
-      done: ""
+      done: "S"
     }
+    componentDidMount() {
+      if(!this.props.loginState){
+        window.alert('로그인 부탁드립니다')
+        this.props.history.push('/login')
+      }
+    }
+    
 
     handleChange = e => {
       const { value, name } = e.target;
@@ -23,6 +29,7 @@ class CreateTodo extends Component {
 
     handleSubmit = e => {
       e.preventDefault();
+      this.props.history.push('/posts')
       this.props.onCreate(this.state)
     }
 

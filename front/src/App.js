@@ -11,179 +11,147 @@ import Bottom from "./components/Bottom";
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-} from "react-router-dom";
-
+  Route} from "react-router-dom";
+import UpdateTodo from "./components/UpdateTodo";
+import Home from "./components/Home";
 class App extends Component {
     state = {
-        userid: "",
-        userpw: "",
         nickname: "",
         todos:[],
-        status: false,
-        postid: "",
-        title: "",
-        content: "",
-        done: "N"
+        loginState: false,
     };
- 
-    handleChange = e => {
-        const { value, name } = e.target;
-        this.setState({
-            [name]: value
-        });
-    };
-    handleSignUp = data => {
-        console.log(data)
-        // const { userid, userpw, nickname } = data;
-        // axios.post("api/user", {
-        //         userid: userid,
-        //         userpw: userpw,
-        //         nickname: nickname
-        //     })
-        //     .then(res => console.log(res));
-        // this.setState({
-        //     userid: "",
-        //     userpw: "",
-        //     nickname: ""
-        // });
-    };
-    handleLogin = e => {
-        const { userid, userpw } = this.state;
-        e.preventDefault();
-        axios
-            .post("api/user/join", {
-                userid: userid,
-                userpw: userpw
+    
+
+    handleLogin = data => {
+        const {loginState, nickname} = data;
+        if(loginState){
+            this.setState({
+                loginState : !this.state.loginState,
+                nickname : nickname
             })
-            .then(res => console.log(res));
-        this.setState({
-            userid: "",
-            userpw: "",
-            status: !this.state.status
-        });
-    };
-    handleLogout = e => {
-        axios.get("api/user").then(res => console.log(res));
-        this.setState({
-            status: !this.state.status
-        });
-    };
-    writePost = post => {
-        const { postid, title, content, done } = post;
-        if (typeof postid === 'undefined') {
-            console.log(postid,'<<<<<<<<<<<<')
-            axios.post("/api/board", {
-                    title: title,
-                    content: content,
-                    done: done
-                })
-                .then(res => {
-                    this.setState({
-                        todos : this.state.todos.concat({
-                            postid : res.data.postid,
-                            title,
-                            content,
-                            done
-                        })
-                    })
-                });
-        } else {
-            axios.patch(`api/board/${postid}`, {
-                    title: title,
-                    content: content,
-                    done: done
-                })
-                .then(res => {
-                    console.log(res);
-                    this.setState({
-                        postid: "",
-                        title: "",
-                        content: ""
-                    });
-                });
         }
     };
 
-    handleupdatePost = () => {
-        // postid를 받아오자!!! 라우터 주소줄에서
-        // const {title, content, done} = this.state;
-        axios.get("api/board/11").then(res => {
-            const { postid, title, content } = res.data;
-            this.setState({
-                postid: postid,
-                title: title,
-                content: content
+    handlePostListUP = data => {
+        this.setState({
+            todos : [...data]
+        })
+    }
+
+    handleLogout = () => {
+        try {            
+            axios.get("/api/user").then(res =>{
+                console.log(res)
+                if(res.data.logoutState){
+                    this.setState({
+                        loginState: !this.state.loginState
+                    });
+                }else{
+                    window.alert('로그아웃 할 수 없습니다.')
+                }
             });
-        });
+        } catch (error) {
+        }
     };
-    handledeletePost = () => {
-        axios.delete("api/board/11").then(res => console.log(res));
+
+    handleCreate = post => {
+        const { postid, title, content, done } = post;
+        if (typeof postid === 'undefined') {
+            try {                
+                axios.post("/api/board", {
+                        title: title,
+                        content: content,
+                        done: done
+                    })
+                    .then(res => {
+                        this.setState({
+                            todos : this.state.todos.concat({
+                                postid : res.data.postid,
+                                title,
+                                content,
+                                done
+                            })
+                        })
+                    });
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    };
+
+
+    handleupdatePost = (post) => {
+        const {postid, title, content, done} = post;
+        this.setState({
+            todos : this.state.todos.map(todo => {
+                if(String(todo.postid) === String(postid)){
+                    return {...post}
+                }else{
+                    return todo
+                }
+            })
+        })
+        try {            
+            axios.patch(`/api/board/${postid}`, {
+                            title: title,
+                            content: content,
+                            done: done
+                        }).then(res=>{
+                            console.log(res.data, '업데이트 완료')
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    };
+
+    handledeletePost = (postid) => {
+        this.setState({
+            todos : this.state.todos.filter(todo => todo.postid !== postid)
+        })
+        try {
+            axios.delete(`/api/board/${postid}`).then(res => console.log(res.data, '삭제 완료'));
+        } catch (error) {
+            console.log(error)
+        }
     };
 
     render() {
         return (
             <div className="App">
               <Router>
-              <Top/>
+              <Top loginState={this.state.loginState} onLogout={this.handleLogout}/>
                 <div className="content">
                 <Switch>
-                    <Route exact path="/">
-                    <TodoList/>
-                    </Route>
-                    <Route path="/posts/write">
-                    <CreateTodo onCreate={this.writePost} />
-                    </Route>
-                    <Route path="/login">
-                    <Login/>
-                    </Route>
-                    <Route path="/join">
-                    <Join onSignUp={this.handleSignUp}/>
-                    </Route>
+                    <Route exact path="/" component={Home}/>
+                    <Route exact path="/posts"
+                     component={(props)=> 
+                     <TodoList {...props}
+                       nickname={this.state.nickname}
+                       todos={this.state.todos}
+                       onUpdate={this.handleupdatePost}
+                       onRemove={this.handledeletePost}/>}/>
+                    <Route path="/posts/write"
+                     component={(props)=>
+                     <CreateTodo {...props}
+                       loginState={this.state.loginState}
+                       onCreate={this.handleCreate} />}/>
+                    <Route path="/posts/:postid"
+                     component={(props)=>
+                     <UpdateTodo {...props}
+                      onUpdate={this.handleupdatePost}/>}/>         
+                    <Route path="/login"
+                     component={(props)=>
+                     <Login {...props}
+                      todos={this.state.todos}
+                      onLogin={this.handleLogin}
+                      onListUp={this.handlePostListUP}/>}/>                   
+                    <Route path="/join"
+                     component={Join}/>
                 </Switch>
                 </div>
               </Router>
-              {/* <UpdateTodo/> */}
               <hr/>
               <Bottom/>
-<hr/>
-<hr/>
-<hr/>
-<hr/>
-                {this.state.status ? "로그인" : "로그아웃"}
-                <h1>회원가입</h1>
-                <form onSubmit={this.handleSignUp}>
-                    <input name="userid" value={this.state.userid} onChange={this.handleChange} />
-                    <input name="userpw" value={this.state.userpw} onChange={this.handleChange} />
-                    <input
-                        name="nickname"
-                        value={this.state.nickname}
-                        onChange={this.handleChange}
-                    />
-                    <button type="submit">추가</button>
-                </form>
-                <h1>로그인</h1>
-                <form onSubmit={this.handleLogin}>
-                    <input name="userid" value={this.state.userid} onChange={this.handleChange} />
-                    <input name="userpw" value={this.state.userpw} onChange={this.handleChange} />
-                    <button type="submit">추가</button>
-                </form>
-                <button onClick={this.handleLogout}>로그아웃</button>
-                <h1>글쓰기</h1>
-                <form onSubmit={this.writePost}>
-                    <input
-                        style={{ display: "none" }}
-                        name="postid"
-                        value={this.state.postid}
-                        onChange={this.handleChange}
-                    />
-                    <input name="title" value={this.state.title} onChange={this.handleChange} />
-                    <input name="content" value={this.state.content} onChange={this.handleChange} />
-                    <button type="submit">추가</button>
-                </form>
-                <button onClick={this.handleupdatePost}>수정</button>
-                <hr />
-                <button onClick={this.handledeletePost}>삭제</button>
             </div>
         );
     }

@@ -1,15 +1,24 @@
 import React, { Component } from 'react';
 import TodoItem from './TodoItem';
+import shortid from'shortid';
 
 class TodoList extends Component {
     render() {
+      const {todos, nickname, onRemove, onUpdate} = this.props
         return (
                 <div className="container mt-1">
-                  <h3 className=" text-xl font-weight-bold mb-5">TODO LIST</h3>
+                  <h3 className=" text-xl font-weight-bold mb-5">{nickname === '' ? 'TODO LIST' : this.props.nickname + '의 TODO LIST' }</h3>
                   <div className="row">
-                    <TodoItem/>
-                    <TodoItem/>
-                    <TodoItem/>
+                    {todos.map(todo => (
+                    <TodoItem
+                      {...this.props}
+                     key={shortid.generate()}
+                     postid={todo.postid}
+                     todo={todo}
+                     onUpdate={onUpdate}
+                     onRemove={onRemove}
+                    />
+                    ))}
                   </div>    
                 </div>
         );
